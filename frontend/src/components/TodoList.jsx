@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import axios from 'axios'
 import Item from "./Item"
 
-export default function TodoList() {
+export default function TodoList({change}) {
   const [todos, setTodos] = useState([])
 
   useEffect(() => {
@@ -11,7 +11,7 @@ export default function TodoList() {
       // console.log(response.data.data)
       setTodos(response.data.data)
     } fetchData()
-  }, [])
+  }, [change])
 
   return (
     <ol className="todoList text-center mt-3 overflow-y-scroll h-[81vh]">
