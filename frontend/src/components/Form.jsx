@@ -38,7 +38,7 @@ export default function Form({ setChange, editTask, setEditTask, delTask }) {
         }
     }
 
-    if (editTask && !delTask)
+    if (editTask)
         inputRef.current.value = editTask.title;
 
     if(delTask && delTask === editTask?._id){
