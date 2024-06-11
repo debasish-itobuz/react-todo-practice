@@ -6,13 +6,19 @@ import { useState } from 'react'
 
 function App() {
 
-const [change, setChange] = useState(false)
+const [change, setChange] = useState(false);
+const [editTask, setEditTask] = useState(null)
+const [delTask, setDelTask] = useState(null)
+
+function handleEdit(item){
+  setEditTask(item)
+}
 
   return (
     <>
       <Header />
-      <Form setChange={setChange} />
-      <TodoList change={change} />
+      <Form setChange={setChange} editTask={editTask} setEditTask={setEditTask} delTask={delTask} />
+      <TodoList change={change} handleEdit={handleEdit} setChange={setChange} setDelTask={setDelTask}  />
     </>
   )
 }

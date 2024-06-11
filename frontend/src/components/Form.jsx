@@ -1,13 +1,25 @@
 import { useRef } from "react"
 import axios from "axios"
 
-export default function Form({ setChange }) {
+export default function Form({ setChange, editTask, setEditTask, delTask }) {
     const inputRef = useRef()
 
     async function createData(value) {
         const response = await axios({ method: "post", url: 'http://localhost:8000/todo/post', data: { title: value } })
+        // console.log(response)
+        if (response.status === 200) {
+            setChange(prev => !prev)
+            inputRef.current.value = ''
+        }
+    }
+
+    async function updateData(value, id) {
+        const response = await axios({ method: "put", url: `http://localhost:8000/todo/update/?id=${id}`, data: { title: value } })
         console.log(response)
-        // setTodos(response.data.data)
+        if (response.status === 200) {
+            setChange(prev => !prev)
+            inputRef.current.value = ''
+        }  
     }
 
     const handleSubmit = (e) => {
@@ -15,10 +27,22 @@ export default function Form({ setChange }) {
         const value = inputRef.current.value.trim()
         console.log(value)
 
-        if (value) {
+        if (value && !editTask) {
             createData(value)
-            setChange(prev => !prev)
         }
+
+        else if (editTask) {
+            if (inputRef.current.value.trim())
+                updateData(inputRef.current.value.trim(), editTask._id);
+                setEditTask(null)
+        }
+    }
+
+    if (editTask && !delTask)
+        inputRef.current.value = editTask.title;
+
+    if(delTask && delTask === editTask?._id){
+        inputRef.current.value = '';
     }
 
     return (
